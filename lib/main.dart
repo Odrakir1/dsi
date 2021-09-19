@@ -66,7 +66,7 @@ class _RandomWordsState extends State<RandomWords> {
       background: Container(
         color: Colors.red,
       ),
-      onDismissed: (direction){
+      onDismissed: (direction) {
         setState(() {
           _suggestions.remove(pair);
         });
@@ -77,23 +77,23 @@ class _RandomWordsState extends State<RandomWords> {
           pair.asPascalCase,
           style: _biggerFont,
         ),
-        trailing: Icon(
-          alreadySaved ? Icons.favorite : Icons.favorite_border,
-          color: alreadySaved ? Colors.red : null,
+        trailing: IconButton(
+          icon: Icon(
+            alreadySaved ? Icons.favorite : Icons.favorite_border,
+            color: alreadySaved ? Colors.red : null,
+          ),
+          onPressed: () {
+            setState(() {
+              if (alreadySaved) {
+                _saved.remove(pair);
+              } else {
+                _saved.add(pair);
+              }
+            });
+          },
         ),
-        onTap: () {
-          // NEW lines from here...
-          setState(() {
-            if (alreadySaved) {
-              _saved.remove(pair);
-            } else {
-              _saved.add(pair);
-            }
-          });
-        },
       ),
     );
-
   }
 
   Widget _buildSuggestions() {
