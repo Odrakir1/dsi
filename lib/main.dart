@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart'; // Add this line.
+import 'package:english_words/english_words.dart';
+import 'package:flutter_engage/wordPair/edit.dart';
 
 void main() => runApp(MyApp());
 
@@ -59,7 +60,7 @@ class _RandomWordsState extends State<RandomWords> {
     );
   }
 
-  Widget _buildRow(WordPair pair) {
+  Widget _buildRow(WordPair pair, index) {
     final alreadySaved = _saved.contains(pair);
 
     return Dismissible(
@@ -73,6 +74,15 @@ class _RandomWordsState extends State<RandomWords> {
       },
       key: Key(pair.hashCode.toString()),
       child: ListTile(
+        onTap: () async {
+          final updatedWordPair = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WordPairEdition(pair: pair)));
+          setState(() {
+            _suggestions[index] = updatedWordPair;
+          });
+        },
         title: Text(
           pair.asPascalCase,
           style: _biggerFont,
@@ -125,7 +135,7 @@ class _RandomWordsState extends State<RandomWords> {
             // suggestions list.
             _suggestions.addAll(generateWordPairs().take(10));
           }
-          return _buildRow(_suggestions[index]);
+          return _buildRow(_suggestions[index], index);
         });
   }
 
